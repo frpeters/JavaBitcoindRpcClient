@@ -5,6 +5,7 @@ import org.junit.Test;
 import wf.bitcoin.krotjson.JSON;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
@@ -19,13 +20,13 @@ public class BitcoinJSONRPCClientTest {
 
         String expectedMethod;
         Object[] expectedObject;
-        String json;
+        String result;
 
-        MyClientTest(boolean testNet, String expectedMethod, Object[] expectedObject, String json) {
+        MyClientTest(boolean testNet, String expectedMethod, Object[] expectedObject, String result) {
             super(testNet);
             this.expectedMethod = expectedMethod;
             this.expectedObject = expectedObject;
-            this.json = json;
+            this.result = result;
         }
 
         @Override
@@ -36,7 +37,7 @@ public class BitcoinJSONRPCClientTest {
             if(o.equals(expectedObject)){
                 throw new BitcoinRpcException("wrong object");
             }
-            return JSON.parse(json);
+            return JSON.parse(result);
         }
     }
 
@@ -69,7 +70,6 @@ public class BitcoinJSONRPCClientTest {
         assertEquals("main", miningInfo.chain());
     }
 
-
     @Test
     public void getConnectionCountTest() throws Exception {
         client = new MyClientTest(false, "getconnectioncount", null, "8");
@@ -85,10 +85,40 @@ public class BitcoinJSONRPCClientTest {
     }
 
     @Test
+    public void getUnconfirmedBalanceTestException() throws Exception {
+        try {
+            client = new MyClientTest(false, "getunconfirmedbalance", null, "12345678910L");
+            double num = client.getUnconfirmedBalance();
+        }
+        catch(Exception e) {
+            assertThat(e.getMessage(), is("java.lang.Long cannot be cast to java.lang.Double"));
+        }
+    }
+
+    @Test
     public void getDifficultyTest() throws Exception {
         client = new MyClientTest(false, "getdifficulty", null, "336899932795.8077");
         double num = client.getDifficulty();
         assertEquals(336899932795.8077, num, 0);
+    }
+
+    @Test
+    public void getDifficultyTest2() throws Exception {
+        client = new MyClientTest(false, "getdifficulty", null, "12345678910L");
+        double num = client.getDifficulty();
+        assertEquals(12345678910L, num, 0);
+    }
+
+    @Test
+    public void getDifficultyTestException() throws Exception {
+        try{
+            client = new MyClientTest(false, "getdifficulty", null, "'hello'");
+            double num = client.getDifficulty();
+        }
+        catch (ClassCastException e){
+            System.out.println(e);
+            assertThat(e.getMessage(), is("java.lang.String cannot be cast to java.lang.Double"));
+        }
     }
 
     /*
