@@ -372,63 +372,6 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
   }
 
-  private class MiningInfoWrapper extends MapWrapper implements MiningInfo, Serializable {
-
-    public MiningInfoWrapper(Map m) {
-      super(m);
-    }
-
-    @Override
-    public int blocks() {
-      return mapInt("blocks");
-    }
-
-    @Override
-    public int currentBlockSize() {
-      return mapInt("currentblocksize");
-    }
-
-    @Override
-    public int currentBlockWeight() {
-      return mapInt("currentblockweight");
-    }
-
-    @Override
-    public int currentBlockTx() {
-      return mapInt("currentblocktx");
-    }
-
-    @Override
-    public double difficulty() {
-      return mapDouble("difficulty");
-    }
-
-    @Override
-    public String errors() {
-      return mapStr("errors");
-    }
-
-    @Override
-    public double networkHashps() {
-      return Double.valueOf(mapStr("networkhashps"));
-    }
-
-    @Override
-    public int pooledTx() {
-      return mapInt("pooledtx");
-    }
-
-    @Override
-    public boolean testNet() {
-      return mapBool("testnet");
-    }
-
-    @Override
-    public String chain() {
-      return mapStr("chain");
-    }
-  }
-
   private class BlockChainInfoMapWrapper extends MapWrapper implements BlockChainInfo, Serializable {
 
     public BlockChainInfoMapWrapper(Map m) {
@@ -590,11 +533,6 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
   }
 
   @Override
-  public MiningInfo getMiningInfo() throws BitcoinRpcException {
-    return new MiningInfoWrapper((Map) query("getmininginfo"));
-  }
-
-  @Override
   public String getNewAddress() throws BitcoinRpcException {
     return (String) query("getnewaddress");
   }
@@ -677,6 +615,11 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
       }
 
       @Override
+      public String scriptPubKey() {
+        return null;
+      }
+
+      @Override
       public Map<String, Object> scriptSig() {
         return (Map) m.get("scriptSig");
       }
@@ -701,8 +644,13 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
       }
 
       @Override
-      public String scriptPubKey() {
-        return mapStr("scriptPubKey");
+      public String redeemScript() {
+        return null;
+      }
+
+      @Override
+      public Double amount() {
+        return null;
       }
 
     }
@@ -723,6 +671,8 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
         }
       };
     }
+
+
 
     private class OutImpl extends MapWrapper implements Out, Serializable {
 
@@ -1127,13 +1077,18 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
         }
 
         @Override
-        public double amount() {
+        public Double amount() {
           return MapWrapper.mapDouble(m, "amount");
         }
 
         @Override
         public int confirmations() {
           return mapInt(m, "confirmations");
+        }
+
+        @Override
+        public String redeemScript() {
+          return mapStr(m, "redeemSript");
         }
 
       };
@@ -1221,22 +1176,42 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
   @Override
   public String signRawTransaction(String hex, List<TxInput> inputs, List<String> privateKeys) throws BitcoinRpcException {
-    List<Map> pInputs = new ArrayList<>();
+    return signRawTransaction(hex, inputs, privateKeys, "ALL");
+  }
 
-    if (inputs != null)
+  public String signRawTransaction(String hex, List<TxInput> inputs, List<String> privateKeys, String sigHashType) throws BitcoinRpcException {
+    List<Map> pInputs = null;
+
+    if (inputs != null) {
+      pInputs = new ArrayList<>();
       for (final TxInput txInput : inputs) {
+        final String scriptPubKey = txInput.scriptPubKey();
+        final String redeemScript = txInput.redeemScript();
+        final Double amount = txInput.amount();
         pInputs.add(new LinkedHashMap() {
           {
             put("txid", txInput.txid());
             put("vout", txInput.vout());
+            if (scriptPubKey != null) {
+              put("scriptPubKey", scriptPubKey);
+            }
+            if (redeemScript != null) {
+              put("redeemScript", redeemScript);
+            }
+            if (amount != null) {
+              put("amount", amount);
+            }
           }
         });
       }
+    }
 
+    /*
     if (privateKeys == null)
       privateKeys = new ArrayList<>();
+    */
 
-    Map result = (Map) query("signrawtransaction", hex, pInputs, privateKeys);
+    Map result = (Map) query("signrawtransaction", hex, pInputs, privateKeys, sigHashType);
 
     if ((Boolean) result.get("complete"))
       return (String) result.get("hex");

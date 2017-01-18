@@ -89,6 +89,10 @@ public interface BitcoindRpcClient {
     public int vout();
 
     public String scriptPubKey();
+
+    public String redeemScript();
+
+    public Double amount();
   }
 
   public static class BasicTxInput implements TxInput {
@@ -122,13 +126,46 @@ public interface BitcoindRpcClient {
       return scriptPubKey;
     }
 
+    @Override
+    public String redeemScript() {
+      return null;
+    }
+
+    @Override
+    public Double amount() {
+      return null;
+    }
+
+  }
+
+  public static class CompleteTxInput extends BasicTxInput {
+
+    public String redeemScript;
+    public Double amount;
+
+    public CompleteTxInput(String txid, int vout, String scriptPubKey, String redeemScript, Double amount) {
+      super(txid, vout, scriptPubKey);
+      this.redeemScript = redeemScript;
+      this.amount = amount;
+    }
+
+    @Override
+    public String redeemScript() {
+      return redeemScript;
+    }
+
+    @Override
+    public Double amount() {
+      return amount;
+    }
+
   }
 
   public static interface TxOutput extends Serializable {
 
     public String address();
 
-    public double amount();
+    public Double amount();
   }
 
   public static class BasicTxOutput implements TxOutput {
@@ -147,7 +184,7 @@ public interface BitcoindRpcClient {
     }
 
     @Override
-    public double amount() {
+    public Double amount() {
       return amount;
     }
   }
@@ -527,7 +564,7 @@ public interface BitcoindRpcClient {
     public String scriptPubKey();
 
     @Override
-    public double amount();
+    public Double amount();
 
     public int confirmations();
   }
