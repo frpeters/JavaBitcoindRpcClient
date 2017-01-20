@@ -34,6 +34,7 @@ import java.util.Map;
 public interface BitcoindRpcClient {
 
   /* Missing methods:
+<<<<<<< fc7010f0ea26959ce49c5590e01c2b196148245f
    getblocktemplate ( "jsonrequestobject" )
    *getgenerate
    *gethashespersec
@@ -45,6 +46,38 @@ public interface BitcoindRpcClient {
    lockunspent unlock [{"txid":"txid","vout":n},...]
    sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
    (DEPRECATED) setaccount "bitcoinaddress" "account"
+=======
+   addmultisigaddress nrequired ["key",...] ( "account" )
+   addnode "node" "add|remove|onetry"
+   backupwallet "destination"
+   createmultisig nrequired ["key",...]
+   dumpwallet "filename"
+   encryptwallet "passphrase"
+   getaddednodeinfo dns ( "node" )
+   getblocktemplate ( "jsonrequestobject" )
+   *getgenerate
+   *gethashespersec
+   getnetworkinfo
+   getreceivedbyaccount "account" ( minconf )
+   gettxout "txid" n ( includemempool )
+   gettxoutsetinfo
+   getwalletinfo
+   getwork ( "data" )
+   help ( "command" )
+   importwallet "filename"
+   keypoolrefill ( newsize )
+   listaddressgroupings
+   listlockunspent
+   listreceivedbyaccount ( minconf includeempty )
+   lockunspent unlock [{"txid":"txid","vout":n},...]
+   sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
+   setaccount "bitcoinaddress" "account"
+   settxfee amount
+   signmessage "bitcoinaddress" "message"
+   submitblock "hexdata" ( "jsonparametersobject" )
+   verifychain ( checklevel numblocks )
+   verifymessage "bitcoinaddress" "signature" "message"
+>>>>>>> fixes
    */
   public static interface TxInput extends Serializable {
 
@@ -400,78 +433,78 @@ public interface BitcoindRpcClient {
 
   }
 
-public static interface MiningInfo extends Serializable {
+  public static interface MiningInfo extends Serializable {
 
-  public int blocks();
+    public int blocks();
 
-  public int currentBlockSize();
+    public int currentBlockSize();
 
-  public int currentBlockWeight();
+    public int currentBlockWeight();
 
-  public int currentBlockTx();
+    public int currentBlockTx();
 
-  public double difficulty();
+    public double difficulty();
 
-  public String errors();
+    public String errors();
 
-  public double networkHashps();
+    public double networkHashps();
 
-  public int pooledTx();
+    public int pooledTx();
 
-  public boolean testNet();
+    public boolean testNet();
 
-  public String chain();
-}
+    public String chain();
+  }
 
-public static interface BlockChainInfo extends Serializable {
+  public static interface BlockChainInfo extends Serializable {
 
-  public String chain();
+    public String chain();
 
-  public int blocks();
+    public int blocks();
 
-  public String bestBlockHash();
+    public String bestBlockHash();
 
-  public double difficulty();
+    public double difficulty();
 
-  public double verificationProgress();
+    public double verificationProgress();
 
-  public String chainWork();
-}
+    public String chainWork();
+  }
 
-public static interface Block extends Serializable {
+  public static interface Block extends Serializable {
 
-  public String hash();
+    public String hash();
 
-  public int confirmations();
+    public int confirmations();
 
-  public int size();
+    public int size();
 
-  public int height();
+    public int height();
 
-  public int version();
+    public int version();
 
-  public String merkleRoot();
+    public String merkleRoot();
 
-  public List<String> tx();
+    public List<String> tx();
 
-  public Date time();
+    public Date time();
 
-  public long nonce();
+    public long nonce();
 
-  public String bits();
+    public String bits();
 
-  public double difficulty();
+    public double difficulty();
 
-  public String previousHash();
+    public String previousHash();
 
-  public String nextHash();
+    public String nextHash();
 
-  public String chainwork();
+    public String chainwork();
 
-  public Block previous() throws BitcoinRpcException;
+    public Block previous() throws BitcoinRpcException;
 
-  public Block next() throws BitcoinRpcException;
-}
+    public Block next() throws BitcoinRpcException;
+  }
 
   public Block getBlock(int height) throws BitcoinRpcException;
 
