@@ -48,10 +48,7 @@ public interface BitcoindRpcClient {
    (DEPRECATED) setaccount "bitcoinaddress" "account"
 =======
    addmultisigaddress nrequired ["key",...] ( "account" )
-   addnode "node" "add|remove|onetry"
-   backupwallet "destination"
    createmultisig nrequired ["key",...]
-   dumpwallet "filename"
    encryptwallet "passphrase"
    getaddednodeinfo dns ( "node" )
    getblocktemplate ( "jsonrequestobject" )
@@ -64,16 +61,13 @@ public interface BitcoindRpcClient {
    getwalletinfo
    getwork ( "data" )
    help ( "command" )
-   importwallet "filename"
    keypoolrefill ( newsize )
    listaddressgroupings
    listlockunspent
    listreceivedbyaccount ( minconf includeempty )
    lockunspent unlock [{"txid":"txid","vout":n},...]
    sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
-   setaccount "bitcoinaddress" "account"
-   settxfee amount
-   signmessage "bitcoinaddress" "message"
+   (DEPRECATED) setaccount "bitcoinaddress" "account"
    submitblock "hexdata" ( "jsonparametersobject" )
    verifychain ( checklevel numblocks )
    verifymessage "bitcoinaddress" "signature" "message"
