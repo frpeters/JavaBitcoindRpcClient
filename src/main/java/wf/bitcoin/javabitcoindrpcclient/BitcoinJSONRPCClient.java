@@ -26,20 +26,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
@@ -824,6 +818,109 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
 
   }
 
+  public class DecodedScriptImpl extends MapWrapper implements DecodedScript, Serializable {
+
+    public DecodedScriptImpl(Map m) {
+      super(m);
+    }
+
+
+    @Override
+    public String asm() {
+      return mapStr("asm");
+    }
+
+    @Override
+    public String hex() {
+      return mapStr("hex");
+    }
+
+    @Override
+    public String type() {
+      return mapStr("type");
+    }
+
+    @Override
+    public int reqSigs() {
+      return mapInt("reqSigs");
+    }
+
+    @Override
+    public List<String> addresses() {
+      return (List) m.get("addresses");
+    }
+
+    @Override
+    public String p2sh() {
+      return mapStr("p2sh");
+    }
+  }
+
+  public class NetTotalsImpl extends MapWrapper implements NetTotals, Serializable {
+
+    public NetTotalsImpl(Map m) {
+      super(m);
+    }
+
+    @Override
+    public long totalBytesRecv() {
+      return mapLong("totalbytesrecv");
+    }
+
+    @Override
+    public long totalBytesSent() {
+      return mapLong("totalbytessent");
+    }
+
+    @Override
+    public long timeMillis() {
+      return mapLong("timemillis");
+    }
+
+    public class uploadTargetImpl extends MapWrapper implements uploadTarget, Serializable {
+
+      public uploadTargetImpl(Map m) {
+        super(m);
+      }
+
+
+      @Override
+      public long timeFrame() {
+        return mapLong("timeframe");
+      }
+
+      @Override
+      public int target() {
+        return mapInt("target");
+      }
+
+      @Override
+      public boolean targetReached() {
+        return mapBool("targetreached");
+      }
+
+      @Override
+      public boolean serveHistoricalBlocks() {
+        return mapBool("servehistoricalblocks");
+      }
+
+      @Override
+      public long bytesLeftInCycle() {
+        return mapLong("bytesleftincycle");
+      }
+
+      @Override
+      public long timeLeftInCycle() {
+        return mapLong("timeleftincycle");
+      }
+    }
+
+    @Override
+    public NetTotals.uploadTarget uploadTarget() {
+      return new uploadTargetImpl((Map) m.get("uploadtarget"));
+    }
+  }
+
   @Override
   public RawTransaction getRawTransaction(String txId) throws BitcoinRpcException {
     return new RawTransactionImpl((Map) query("getrawtransaction", txId, 1));
@@ -1489,5 +1586,34 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
       return (double) query("getdifficulty");
     }
   }
+
+  @Override
+  public NetTotals getNetTotals() throws BitcoinRpcException {
+    return new NetTotalsImpl((Map) query("getnettotals"));
+  }
+
+  @Override
+  public DecodedScript decodeScript(String hex) throws BitcoinRpcException {
+    return new DecodedScriptImpl((Map) query("decodescript", hex));
+  }
+
+  @Override
+  public void ping() throws BitcoinRpcException {
+    query("ping");
+  }
+
+  //It doesn't work!
+  @Override
+  public boolean getGenerate() throws BitcoinRPCException {
+    return (boolean) query("getgenerate");
+  }
+
+
+  @Override
+  public BigDecimal getNetworkHashPs() throws BitcoinRpcException {
+    return BigDecimal.valueOf((Double)query("getnetworkhashps"));
+  }
+
+
 
 }
