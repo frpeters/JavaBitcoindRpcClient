@@ -1614,6 +1614,42 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
     return BigDecimal.valueOf((Double)query("getnetworkhashps"));
   }
 
+  @Override
+  public boolean setTxFee(BigDecimal amount) throws BitcoinRpcException {
+    return (boolean) query("settxfee", amount);
+  }
+
+  /**
+   *
+   * @param node example: "192.168.0.6:8333"
+   * @param command must be either "add", "remove" or "onetry"
+   * @throws BitcoinRpcException
+   */
+  @Override
+  public void addNode(String node, String command) throws BitcoinRpcException {
+    query("addnode", node, command);
+  }
+
+  @Override
+  public void backupWallet(String destination) throws BitcoinRpcException {
+    query("backupwallet", destination);
+  }
+
+  @Override
+  public String signMessage(String bitcoinAdress, String message) throws BitcoinRpcException {
+    return (String) query("signmessage", bitcoinAdress, message);
+  }
+
+  @Override
+  public void dumpWallet(String filename) throws BitcoinRpcException {
+    query("dumpwallet", filename);
+  }
+
+  @Override
+  public void importWallet(String filename) throws BitcoinRpcException {
+    query("dumpwallet", filename);
+  }
+
 
 
 }
