@@ -21,6 +21,7 @@
 package wf.bitcoin.javabitcoindrpcclient;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,47 +38,29 @@ public interface BitcoindRpcClient {
    addnode "node" "add|remove|onetry"
    backupwallet "destination"
    createmultisig nrequired ["key",...]
-   decodescript "hex"
    dumpwallet "filename"
    encryptwallet "passphrase"
-   estimatefee "nblocks"
-   estimatepriority "nblock"
-   generate "nblocks"
-   getaccountaddress "account"
    getaddednodeinfo dns ( "node" )
-   getblockchaininfo
    getblocktemplate ( "jsonrequestobject" )
-   getgenerate
-   gethashespersec
-   getinfo
-   getmininginfo
-   getnettotals
-   getnetworkhashps ( blocks height )
+   *getgenerate
+   *gethashespersec
    getnetworkinfo
-   getpeerinfo
    getreceivedbyaccount "account" ( minconf )
-   gettransaction "txid"
    gettxout "txid" n ( includemempool )
    gettxoutsetinfo
    getwalletinfo
    getwork ( "data" )
    help ( "command" )
    importwallet "filename"
-   invalidateblock "hash"
    keypoolrefill ( newsize )
    listaddressgroupings
    listlockunspent
    listreceivedbyaccount ( minconf includeempty )
    lockunspent unlock [{"txid":"txid","vout":n},...]
-   move "fromaccount" "toaccount" amount ( minconf "comment" )
-   ping
-   reconsiderblock "hash"
    sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
    setaccount "bitcoinaddress" "account"
-   setgenerate 0/1
    settxfee amount
    signmessage "bitcoinaddress" "message"
-   stop
    submitblock "hexdata" ( "jsonparametersobject" )
    verifychain ( checklevel numblocks )
    verifymessage "bitcoinaddress" "signature" "message"
@@ -217,6 +200,47 @@ public interface BitcoindRpcClient {
     public double relayFee();
 
     public String errors();
+  }
+
+  public static interface NetTotals extends Serializable {
+
+    public long totalBytesRecv();
+
+    public long totalBytesSent();
+
+    public long timeMillis();
+
+    public interface uploadTarget extends Serializable {
+
+        public long timeFrame();
+
+        public int target();
+
+        public boolean targetReached();
+
+        public boolean serveHistoricalBlocks();
+
+        public long bytesLeftInCycle();
+
+        public long timeLeftInCycle();
+    }
+
+    public uploadTarget uploadTarget();
+  }
+
+  public static interface DecodedScript extends Serializable {
+
+    public String asm();
+
+    public String hex();
+
+    public String type();
+
+    public int reqSigs();
+
+    public List<String> addresses();
+
+    public String p2sh();
   }
 
   public static interface MiningInfo extends Serializable {
@@ -680,4 +704,14 @@ public interface BitcoindRpcClient {
   double getUnconfirmedBalance();
 
   double getDifficulty();
+
+  void ping();
+
+  DecodedScript decodeScript(String hex);
+
+  NetTotals getNetTotals();
+
+  boolean getGenerate();
+
+  BigDecimal getNetworkHashPs();
 }
