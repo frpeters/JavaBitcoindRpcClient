@@ -1,8 +1,12 @@
 package wf.bitcoin.javabitcoindrpcclient;
 
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
@@ -40,5 +44,38 @@ public class BitcoinJSONRPCClientTest {
     @Test
     public void getNetworkHashPsTest() throws BitcoinRpcException {
         System.out.println(client.getNetworkHashPs().toString());
+    }
+
+    @Test
+    public void setTxFeeTest() throws BitcoinRpcException {
+        assertEquals(true, client.setTxFee(BigDecimal.valueOf(134143.1123)));
+    }
+
+    @Test
+    public void addNodeTest() throws BitcoinRpcException {
+        client.addNode("192.167.0.6:8333", "add");
+        client.addNode("192.167.0.6:8333", "onetry");
+        client.addNode("192.167.0.6:8333", "remove");
+    }
+
+    @Test
+    public void backupWalletTest() throws BitcoinRpcException {
+        client.backupWallet("backupwalletfolder");
+    }
+
+    @Test
+    public void signMessageTest() throws BitcoinRpcException {
+        try {
+            client.signMessage("1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ", "my message");
+        }
+        catch(Exception e) {
+            assertThat(e.getMessage(), is("RPC Query Failed (method: signmessage, params: [1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ, my message], response code: 500 responseMessage Internal Server Error, response: {\"result\":null,\"error\":{\"code\":-4,\"message\":\"Private key not available\"},\"id\":\"1\"}\n"));
+        }
+    }
+
+    @Test
+    public void dumpImportWalletTest() throws BitcoinRpcException {
+        client.dumpWallet("wallet example");
+        client.importWallet("wallt example");
     }
 }
