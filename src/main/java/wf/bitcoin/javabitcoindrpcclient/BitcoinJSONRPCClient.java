@@ -2089,6 +2089,4 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
   public TxOut getTxOut(String txId, long vout, boolean includemempool) throws BitcoinRpcException {
     return new TxOutWrapper((Map) query("gettxout"));
   }
-
-
 }
