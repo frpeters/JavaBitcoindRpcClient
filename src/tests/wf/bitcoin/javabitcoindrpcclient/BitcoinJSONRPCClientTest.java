@@ -20,7 +20,7 @@ public class BitcoinJSONRPCClientTest {
     public void setUp() {
         client = new BitcoinJSONRPCClient(false);
     }
-
+/*
     @Test
     public void getNetTotalsTest() throws Exception {
         BitcoinJSONRPCClient.NetTotalsImpl netTotals = (BitcoinJSONRPCClient.NetTotalsImpl) client.getNetTotals();
@@ -78,4 +78,19 @@ public class BitcoinJSONRPCClientTest {
         client.dumpWallet("wallet example");
         client.importWallet("wallt example");
     }
+
+    @Test
+    public void keyPoolRefillTest() throws BitcoinRpcException {
+        client.keyPoolRefill();
+        client.keyPoolRefill(1000);
+    }*/
+
+    @Test
+    public void getReceivedByAccountTest() throws BitcoinRpcException {
+        //assertEquals(0.0, client.getReceivedByAddress(" ", 0), 0);
+        assertEquals(0.0, client.getReceivedByAddress("\"tabby\"", 0), 0);
+        assertEquals(0.0, client.getReceivedByAddress("\"tabby\"", 6), 0);
+    }
+
+
 }
