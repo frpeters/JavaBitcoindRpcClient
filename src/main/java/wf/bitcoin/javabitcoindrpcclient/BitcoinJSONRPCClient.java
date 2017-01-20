@@ -1679,6 +1679,24 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
     query("dumpwallet", filename);
   }
 
+  @Override
+  public void keyPoolRefill() throws BitcoinRpcException {
+    keyPoolRefill(100); //default is 100 if you don't send anything
+  }
+
+  public void keyPoolRefill(long size) throws BitcoinRpcException {
+    query("keypoolrefill", size);
+  }
+
+  @Override
+  public BigDecimal getReceivedByAccount(String account) throws BitcoinRpcException {
+    return getReceivedByAccount(account, 1);
+  }
+
+  public BigDecimal getReceivedByAccount(String account, int minConf) {
+    return BigDecimal.valueOf((Double)query("getreceivedbyaccount", account, minConf));
+  }
+
 
 
 }
