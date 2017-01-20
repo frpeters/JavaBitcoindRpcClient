@@ -34,7 +34,6 @@ import java.util.Map;
 public interface BitcoindRpcClient {
 
   /* Missing methods:
-<<<<<<< fc7010f0ea26959ce49c5590e01c2b196148245f
    getblocktemplate ( "jsonrequestobject" )
    *getgenerate
    *gethashespersec
@@ -46,32 +45,6 @@ public interface BitcoindRpcClient {
    lockunspent unlock [{"txid":"txid","vout":n},...]
    sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
    (DEPRECATED) setaccount "bitcoinaddress" "account"
-=======
-   addmultisigaddress nrequired ["key",...] ( "account" )
-   createmultisig nrequired ["key",...]
-   encryptwallet "passphrase"
-   getaddednodeinfo dns ( "node" )
-   getblocktemplate ( "jsonrequestobject" )
-   *getgenerate
-   *gethashespersec
-   getnetworkinfo
-   getreceivedbyaccount "account" ( minconf )
-   gettxout "txid" n ( includemempool )
-   gettxoutsetinfo
-   getwalletinfo
-   getwork ( "data" )
-   help ( "command" )
-   keypoolrefill ( newsize )
-   listaddressgroupings
-   listlockunspent
-   listreceivedbyaccount ( minconf includeempty )
-   lockunspent unlock [{"txid":"txid","vout":n},...]
-   sendmany "fromaccount" {"address":amount,...} ( minconf "comment" )
-   (DEPRECATED) setaccount "bitcoinaddress" "account"
-   submitblock "hexdata" ( "jsonparametersobject" )
-   verifychain ( checklevel numblocks )
-   verifymessage "bitcoinaddress" "signature" "message"
->>>>>>> fixes
    */
   public static interface TxInput extends Serializable {
 
