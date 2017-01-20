@@ -46,9 +46,8 @@ public interface BitcoindRpcClient {
    gettxout "txid" n ( includemempool )
    gettxoutsetinfo
    getwalletinfo
-   getwork ( "data" )
+   *getwork ( "data" )
    help ( "command" )
-   keypoolrefill ( newsize )
    listaddressgroupings
    listlockunspent
    listreceivedbyaccount ( minconf includeempty )
@@ -720,4 +719,8 @@ public interface BitcoindRpcClient {
   void dumpWallet(String filename);
 
   void importWallet(String filename);
+
+  void keyPoolRefill();
+
+  BigDecimal getReceivedByAccount(String account);
 }
