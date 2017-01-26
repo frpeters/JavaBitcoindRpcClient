@@ -114,6 +114,27 @@ public class BitcoinJSONRPCClientTest {
         assertEquals(BigDecimal.valueOf(0.0), wf.payTxFee());
         assertEquals("46e3f9cf241f4c6fea6268788837d66e429d213c", wf.hdMasterKeyId());
     }*/
+/*
+    @Test
+    public void encryptWalletTest() throws BitcoinRpcException {
+        client.encryptWallet("my pass phrase");
+    }*/
+
+/*
+    @Test
+    public void getWalletInfoTest() throws BitcoinRpcException {
+        BitcoindRpcClient.WalletInfo wf = client.getWalletInfo();
+        assertEquals(130000, wf.walletVersion());
+        assertEquals(BigDecimal.valueOf(0.0), wf.balance());
+        assertEquals(BigDecimal.valueOf(0.0), wf.unconfirmedBalance());
+        assertEquals(BigDecimal.valueOf(0.0), wf.immatureBalance());
+        assertEquals(0, wf.txCount());
+        assertEquals(1485181120, wf.keyPoolOldest());
+        assertEquals(101, wf.keyPoolSize());
+        assertEquals(0, wf.unlockedUntil());
+        assertEquals(BigDecimal.valueOf(0.0), wf.payTxFee());
+        assertEquals("46e3f9cf241f4c6fea6268788837d66e429d213c", wf.hdMasterKeyId());
+    }*/
 
     @Test
     public void getNetworkInfoTest() throws BitcoinRpcException {
@@ -196,6 +217,7 @@ public class BitcoinJSONRPCClientTest {
         }
     }
 
-    //testear txout
+    //testear txout!
+
 
 }

@@ -187,7 +187,6 @@ public interface BitcoindRpcClient {
   public Info getInfo() throws BitcoinRpcException;
 
   /**
-   *
    * @return miningInfo about the bitcoind instance
    * @throws BitcoinRpcException
    */
@@ -725,7 +724,7 @@ public interface BitcoindRpcClient {
    *
    * @param fromAccount
    * @param toBitcoinAddress
-   * @param amount is a real and is rounded to 8 decimal places
+   * @param amount           is a real and is rounded to 8 decimal places
    * @param minConf
    * @param comment
    * @param commentTo
@@ -742,7 +741,7 @@ public interface BitcoindRpcClient {
 
   /**
    * @param toAddress
-   * @param amount is a real and is rounded to 8 decimal places
+   * @param amount    is a real and is rounded to 8 decimal places
    * @param comment
    * @param commentTo
    * @return the transaction ID &lt;txid&gt; if successful
@@ -771,7 +770,7 @@ public interface BitcoindRpcClient {
 
   /**
    * @param doGenerate a boolean indicating if blocks must be generated with the
-   * cpu
+   *                   cpu
    * @throws BitcoinRPCException
    */
   public void setGenerate(boolean doGenerate) throws BitcoinRPCException;
@@ -780,7 +779,7 @@ public interface BitcoindRpcClient {
    * Used in regtest mode to generate an arbitrary number of blocks
    *
    * @param numBlocks a boolean indicating if blocks must be generated with the
-   * cpu
+   *                  cpu
    * @return the list of hashes of the generated blocks
    * @throws BitcoinRPCException
    */
@@ -904,3 +903,4 @@ public interface BitcoindRpcClient {
 
   TxOut getTxOut(String txId, long vout);
 }
+
