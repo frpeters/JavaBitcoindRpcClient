@@ -399,78 +399,78 @@ public interface BitcoindRpcClient {
 
   }
 
-  public static interface MiningInfo extends Serializable {
+public static interface MiningInfo extends Serializable {
 
-    public int blocks();
+  public int blocks();
 
-    public int currentBlockSize();
+  public int currentBlockSize();
 
-    public int currentBlockWeight();
+  public int currentBlockWeight();
 
-    public int currentBlockTx();
+  public int currentBlockTx();
 
-    public double difficulty();
+  public double difficulty();
 
-    public String errors();
+  public String errors();
 
-    public double networkHashps();
+  public double networkHashps();
 
-    public int pooledTx();
+  public int pooledTx();
 
-    public boolean testNet();
+  public boolean testNet();
 
-    public String chain();
-  }
+  public String chain();
+}
 
-  public static interface BlockChainInfo extends Serializable {
+public static interface BlockChainInfo extends Serializable {
 
-    public String chain();
+  public String chain();
 
-    public int blocks();
+  public int blocks();
 
-    public String bestBlockHash();
+  public String bestBlockHash();
 
-    public double difficulty();
+  public double difficulty();
 
-    public double verificationProgress();
+  public double verificationProgress();
 
-    public String chainWork();
-  }
+  public String chainWork();
+}
 
-  public static interface Block extends Serializable {
+public static interface Block extends Serializable {
 
-    public String hash();
+  public String hash();
 
-    public int confirmations();
+  public int confirmations();
 
-    public int size();
+  public int size();
 
-    public int height();
+  public int height();
 
-    public int version();
+  public int version();
 
-    public String merkleRoot();
+  public String merkleRoot();
 
-    public List<String> tx();
+  public List<String> tx();
 
-    public Date time();
+  public Date time();
 
-    public long nonce();
+  public long nonce();
 
-    public String bits();
+  public String bits();
 
-    public double difficulty();
+  public double difficulty();
 
-    public String previousHash();
+  public String previousHash();
 
-    public String nextHash();
+  public String nextHash();
 
-    public String chainwork();
+  public String chainwork();
 
-    public Block previous() throws BitcoinRpcException;
+  public Block previous() throws BitcoinRpcException;
 
-    public Block next() throws BitcoinRpcException;
-  }
+  public Block next() throws BitcoinRpcException;
+}
 
   public Block getBlock(int height) throws BitcoinRpcException;
 
