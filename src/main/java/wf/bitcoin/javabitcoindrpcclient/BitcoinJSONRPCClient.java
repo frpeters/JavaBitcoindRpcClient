@@ -1661,7 +1661,7 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
       throw new BitcoinRpcException("Incomplete");
   }
 
-  public RawTransaction decodeRawTransaction(String hex) throws BitcoinRpcException{
+  public RawTransaction decodeRawTransaction(String hex) throws BitcoinRpcException {
     Map result = (Map) query("decoderawtransaction", hex);
     RawTransaction rawTransaction = new RawTransactionImpl(result);
     return rawTransaction.vOut().get(0).transaction();
@@ -1925,8 +1925,7 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
   public double getDifficulty() throws BitcoinRpcException {
     if (query("getdifficulty") instanceof Long) {
       return ((Long) query("getdifficulty")).doubleValue();
-    }
-    else {
+    } else {
       return (double) query("getdifficulty");
     }
   }

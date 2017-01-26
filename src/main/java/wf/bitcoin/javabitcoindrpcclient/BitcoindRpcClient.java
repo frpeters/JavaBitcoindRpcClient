@@ -317,20 +317,6 @@ public interface BitcoindRpcClient {
     public String redeemScript();
   }
 
-
-/*
-{
-    "addednode" : "192.168.0.201",   (string) The node ip address or name (as provided to addnode)
-    "connected" : true|false,          (boolean) If connected
-    "addresses" : [                    (list of objects) Only when connected = true
-       {
-         "address" : "192.168.0.201:8333",  (string) The bitcoin server IP and port we're connected to
-         "connected" : "outbound"           (string) connection, inbound or outbound
-       }
-     ]
-  }
-  ,...
- */
   public static interface NodeInfo extends Serializable {
 
     public String addedNode();
@@ -464,82 +450,82 @@ public static interface Block extends Serializable {
 
   public String getRawTransactionHex(String txId) throws BitcoinRpcException;
 
-public interface RawTransaction extends Serializable {
+  public interface RawTransaction extends Serializable {
 
-  public String hex();
+    public String hex();
 
-  public String txId();
+    public String txId();
 
-  public int version();
+    public int version();
 
-  public long lockTime();
+    public long lockTime();
 
-  public long size();
+    public long size();
 
-  public long vsize();
+    public long vsize();
 
-  public String hash();
+    public String hash();
 
-  /*
-   *
-   */
-  public interface In extends TxInput, Serializable {
+    /*
+     *
+     */
+    public interface In extends TxInput, Serializable {
 
-    public Map<String, Object> scriptSig();
+      public Map<String, Object> scriptSig();
 
-    public long sequence();
+      public long sequence();
 
-    public RawTransaction getTransaction();
+      public RawTransaction getTransaction();
 
-    public Out getTransactionOutput();
-  }
-
-  /**
-   * This method should be replaced someday
-   *
-   * @return the list of inputs
-   */
-  public List<In> vIn(); // TODO : Create special interface instead of this
-
-  public interface Out extends Serializable {
-
-    public double value();
-
-    public int n();
-
-    public interface ScriptPubKey extends Serializable {
-
-      public String asm();
-
-      public String hex();
-
-      public int reqSigs();
-
-      public String type();
-
-      public List<String> addresses();
+      public Out getTransactionOutput();
     }
 
-    public ScriptPubKey scriptPubKey();
+    /**
+     * This method should be replaced someday
+     *
+     * @return the list of inputs
+     */
+    public List<In> vIn(); // TODO : Create special interface instead of this
 
-    public TxInput toInput();
+    public interface Out extends Serializable {
 
-    public RawTransaction transaction();
+      public double value();
+
+      public int n();
+
+      public interface ScriptPubKey extends Serializable {
+
+        public String asm();
+
+        public String hex();
+
+        public int reqSigs();
+
+        public String type();
+
+        public List<String> addresses();
+      }
+
+      public ScriptPubKey scriptPubKey();
+
+      public TxInput toInput();
+
+      public RawTransaction transaction();
+    }
+
+    /**
+     * This method should be replaced someday
+     */
+    public List<Out> vOut(); // TODO : Create special interface instead of this
+
+    public String blockHash();
+
+    public int confirmations();
+
+    public Date time();
+
+    public Date blocktime();
   }
-
-  /**
-   * This method should be replaced someday
-   */
-  public List<Out> vOut(); // TODO : Create special interface instead of this
-
-  public String blockHash();
-
-  public int confirmations();
-
-  public Date time();
-
-  public Date blocktime();
-}
 
   public RawTransaction getRawTransaction(String txId) throws BitcoinRpcException;
 
@@ -575,16 +561,16 @@ public interface RawTransaction extends Serializable {
 
   public Map<String, Number> listAccounts(int minConf) throws BitcoinRpcException;
 
-public static interface ReceivedAddress extends Serializable {
+  public static interface ReceivedAddress extends Serializable {
 
-  public String address();
+    public String address();
 
-  public String account();
+    public String account();
 
-  public double amount();
+    public double amount();
 
-  public int confirmations();
-}
+    public int confirmations();
+  }
 
   public List<ReceivedAddress> listReceivedByAddress() throws BitcoinRpcException;
 
@@ -592,48 +578,48 @@ public static interface ReceivedAddress extends Serializable {
 
   public List<ReceivedAddress> listReceivedByAddress(int minConf, boolean includeEmpty) throws BitcoinRpcException;
 
-/**
- * returned by listsinceblock and listtransactions
- */
-public static interface Transaction extends Serializable {
+  /**
+   * returned by listsinceblock and listtransactions
+   */
+  public static interface Transaction extends Serializable {
 
-  public String account();
+    public String account();
 
-  public String address();
+    public String address();
 
-  public String category();
+    public String category();
 
-  public double amount();
+    public double amount();
 
-  public double fee();
+    public double fee();
 
-  public int confirmations();
+    public int confirmations();
 
-  public String blockHash();
+    public String blockHash();
 
-  public int blockIndex();
+    public int blockIndex();
 
-  public Date blockTime();
+    public Date blockTime();
 
-  public String txId();
+    public String txId();
 
-  public Date time();
+    public Date time();
 
-  public Date timeReceived();
+    public Date timeReceived();
 
-  public String comment();
+    public String comment();
 
-  public String commentTo();
+    public String commentTo();
 
-  public RawTransaction raw();
-}
+    public RawTransaction raw();
+  }
 
-public static interface TransactionsSinceBlock extends Serializable {
+  public static interface TransactionsSinceBlock extends Serializable {
 
-  public List<Transaction> transactions();
+    public List<Transaction> transactions();
 
-  public String lastBlock();
-}
+    public String lastBlock();
+  }
 
   public TransactionsSinceBlock listSinceBlock() throws BitcoinRpcException;
 
@@ -649,26 +635,26 @@ public static interface TransactionsSinceBlock extends Serializable {
 
   public List<Transaction> listTransactions(String account, int count, int from) throws BitcoinRpcException;
 
-public interface Unspent extends TxInput, TxOutput, Serializable {
+  public interface Unspent extends TxInput, TxOutput, Serializable {
 
-  @Override
-  public String txid();
+    @Override
+    public String txid();
 
-  @Override
-  public int vout();
+    @Override
+    public int vout();
 
-  @Override
-  public String address();
+    @Override
+    public String address();
 
-  public String account();
+    public String account();
 
-  public String scriptPubKey();
+    public String scriptPubKey();
 
-  @Override
-  public double amount();
+    @Override
+    public double amount();
 
-  public int confirmations();
-}
+    public int confirmations();
+  }
 
   public List<Unspent> listUnspent() throws BitcoinRpcException;
 
@@ -696,7 +682,7 @@ public interface Unspent extends TxInput, TxOutput, Serializable {
    *
    * @param fromAccount
    * @param toBitcoinAddress
-   * @param amount           is a real and is rounded to 8 decimal places
+   * @param amount is a real and is rounded to 8 decimal places
    * @param minConf
    * @param comment
    * @param commentTo
@@ -713,7 +699,7 @@ public interface Unspent extends TxInput, TxOutput, Serializable {
 
   /**
    * @param toAddress
-   * @param amount    is a real and is rounded to 8 decimal places
+   * @param amount is a real and is rounded to 8 decimal places
    * @param comment
    * @param commentTo
    * @return the transaction ID &lt;txid&gt; if successful
@@ -723,26 +709,26 @@ public interface Unspent extends TxInput, TxOutput, Serializable {
 
   public String signRawTransaction(String hex) throws BitcoinRpcException;
 
-public static interface AddressValidationResult extends Serializable {
+  public static interface AddressValidationResult extends Serializable {
 
-  public boolean isValid();
+    public boolean isValid();
 
-  public String address();
+    public String address();
 
-  public boolean isMine();
+    public boolean isMine();
 
-  public boolean isScript();
+    public boolean isScript();
 
-  public String pubKey();
+    public String pubKey();
 
-  public boolean isCompressed();
+    public boolean isCompressed();
 
-  public String account();
-}
+    public String account();
+  }
 
   /**
    * @param doGenerate a boolean indicating if blocks must be generated with the
-   *                   cpu
+   * cpu
    * @throws BitcoinRPCException
    */
   public void setGenerate(boolean doGenerate) throws BitcoinRPCException;
@@ -751,7 +737,7 @@ public static interface AddressValidationResult extends Serializable {
    * Used in regtest mode to generate an arbitrary number of blocks
    *
    * @param numBlocks a boolean indicating if blocks must be generated with the
-   *                  cpu
+   * cpu
    * @return the list of hashes of the generated blocks
    * @throws BitcoinRPCException
    */
@@ -780,46 +766,46 @@ public static interface AddressValidationResult extends Serializable {
    */
   public void reconsiderBlock(String hash) throws BitcoinRpcException;
 
-public static interface PeerInfoResult extends Serializable {
+  public static interface PeerInfoResult extends Serializable {
 
-  long getId();
+    long getId();
 
-  String getAddr();
+    String getAddr();
 
-  String getAddrLocal();
+    String getAddrLocal();
 
-  String getServices();
+    String getServices();
 
-  long getLastSend();
+    long getLastSend();
 
-  long getLastRecv();
+    long getLastRecv();
 
-  long getBytesSent();
+    long getBytesSent();
 
-  long getBytesRecv();
+    long getBytesRecv();
 
-  long getConnTime();
+    long getConnTime();
 
-  int getTimeOffset();
+    int getTimeOffset();
 
-  double getPingTime();
+    double getPingTime();
 
-  long getVersion();
+    long getVersion();
 
-  String getSubVer();
+    String getSubVer();
 
-  boolean isInbound();
+    boolean isInbound();
 
-  int getStartingHeight();
+    int getStartingHeight();
 
-  long getBanScore();
+    long getBanScore();
 
-  int getSyncedHeaders();
+    int getSyncedHeaders();
 
-  int getSyncedBlocks();
+    int getSyncedBlocks();
 
-  boolean isWhiteListed();
-}
+    boolean isWhiteListed();
+  }
 
   List<PeerInfoResult> getPeerInfo();
 
