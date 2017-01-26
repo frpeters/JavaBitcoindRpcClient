@@ -1955,7 +1955,8 @@ public class BitcoinJSONRPCClient implements BitcoindRpcClient {
   public double getDifficulty() throws BitcoinRpcException {
     if (query("getdifficulty") instanceof Long) {
       return ((Long) query("getdifficulty")).doubleValue();
-    } else {
+    }
+    else {
       return (double) query("getdifficulty");
     }
   }
