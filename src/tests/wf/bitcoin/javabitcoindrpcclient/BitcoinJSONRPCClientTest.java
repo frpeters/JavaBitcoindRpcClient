@@ -114,7 +114,6 @@ public class BitcoinJSONRPCClientTest {
         assertEquals(BigDecimal.valueOf(0.0), wf.payTxFee());
         assertEquals("46e3f9cf241f4c6fea6268788837d66e429d213c", wf.hdMasterKeyId());
     }*/
-<<<<<<< HEAD
 /*
     @Test
     public void encryptWalletTest() throws BitcoinRpcException {
