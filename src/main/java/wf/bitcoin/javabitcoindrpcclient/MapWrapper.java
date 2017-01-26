@@ -18,6 +18,7 @@
 
 package wf.bitcoin.javabitcoindrpcclient;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -43,6 +44,10 @@ class MapWrapper {
 
     public double mapDouble(String key) {
         return mapDouble(m, key);
+    }
+
+    public BigDecimal mapBigDecimal(String key) {
+        return mapBigDecimal(m, key);
     }
 
     public int mapInt(String key) {
@@ -71,6 +76,10 @@ class MapWrapper {
 
     public static double mapDouble(Map m, String key) {
         return ((Number)m.get(key)).doubleValue();
+    }
+
+    public static BigDecimal mapBigDecimal(Map m, String key) {
+        return new BigDecimal((String)m.get(key));
     }
 
     public static int mapInt(Map m, String key) {
